@@ -1,0 +1,142 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0b0d10">
+<title>支出入库 · iPhone 安装向导</title>
+<style>
+  :root{--bg:#0b0d10;--card:#15181d;--line:#262b33;--fg:#e9edf3;--dim:#8b94a3;--cy:#22e3ff;--ok:#3ddc84;--warn:#ffb020}
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+  body{margin:0;background:var(--bg);color:var(--fg);font:16px/1.7 -apple-system,"PingFang SC",system-ui,sans-serif;padding:22px 16px 64px;max-width:720px;margin:0 auto}
+  .badge{display:inline-block;font-size:12px;padding:4px 10px;border-radius:99px;background:#2a1f00;color:var(--warn);border:1px solid #4a3600}
+  h1{font-size:26px;line-height:1.3;margin:14px 0 6px;letter-spacing:-.5px}
+  .sub{color:var(--dim);font-size:14px;margin-bottom:22px}
+  h2{font-size:15px;letter-spacing:1px;color:var(--cy);margin:30px 0 10px;font-weight:600}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 16px;margin:10px 0}
+  .card.warn{background:#1b1403;border-color:#4a3600;color:#f3dca8}
+  .card.ok{background:#07180f;border-color:#17452b;color:#bfead0}
+  .st{font-weight:600;margin-bottom:6px}
+  .body{font-size:15px;color:#cdd5e0}
+  code{background:#0e1116;border:1px solid var(--line);border-radius:6px;padding:1px 6px;font-size:14px;color:#9fe8f7;font-family:ui-monospace,Menlo,monospace}
+  .mono{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:#0e1116;border:1px solid var(--line);border-radius:10px;padding:12px;overflow-x:auto;white-space:pre;color:#bfe9f5;margin:8px 0}
+  .num{display:inline-flex;width:24px;height:24px;border-radius:50%;background:var(--cy);color:#04161b;font-size:13px;font-weight:700;align-items:center;justify-content:center;margin-right:8px;vertical-align:2px}
+  .row{display:flex;gap:12px}
+  .apps{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:10px}
+  .app{display:flex;gap:8px;align-items:center;font-size:14px;color:#cdd5e0;background:#0e1116;border:1px solid var(--line);border-radius:9px;padding:8px 10px}
+  .app input{accent-color:var(--cy);width:17px;height:17px;margin:0}
+  details{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:12px 14px;margin:8px 0}
+  summary{cursor:pointer;font-size:15px;color:#dbe3ee;font-weight:500}
+  details p{color:var(--dim);font-size:14px;margin:8px 0 0}
+  .tip{font-size:13px;color:var(--dim);margin-top:8px}
+  .kbd{color:var(--cy)}
+  footer{margin-top:36px;font-size:12px;color:#5d6673;text-align:center;line-height:1.9}
+  a{color:var(--cy)}
+  ul{padding-left:20px;margin:6px 0}
+  li{margin:3px 0}
+</style>
+</head>
+<body>
+
+<span class="badge">需要 iOS 27</span>
+<h1>支出入库</h1>
+<div class="sub">支付宝 / 微信 / 银行 / 美团 / 抖音 —— 每一笔支出自动落进备忘录。不装 App、不注册、不上传、不花钱。</div>
+
+<h2>它是什么</h2>
+<div class="card">
+  <div class="body">iPhone 收到支付 App 的通知 → 系统把它交给一条快捷指令 → 快捷指令把「时间 / App / 标题 / 正文」写成一行，追加进备忘录「支出流水」。<br><br>
+  月底把备忘录复制成文本，电脑上跑一遍脚本，出月报：总共花了多少、花在哪、哪笔是退款。</div>
+</div>
+
+<h2>第 0 步 · 三个前置检查</h2>
+<div class="card warn">
+  <div class="st">少做一件就抓不到金额</div>
+  <div class="body">
+    ① 设置 → 通用 → 关于本机 → 软件版本，必须是 <b>27.x</b>。「收到通知时」这个触发器是 iOS 27（2026-09-14）才有的，26 及以下没有等价功能。<br><br>
+    ② 设置 → 通知 → <b>显示预览</b> 选「始终」。否则正文被系统换成「1 条新消息」，金额抓不到。<br><br>
+    ③ 每个支付 App 的通知，显示位置要勾上 <b>锁屏</b> 或 <b>通知中心</b>。只勾「横幅」不触发自动化，这是系统行为。
+  </div>
+</div>
+
+<h2>第 1 步 · 建一个备忘录</h2>
+<div class="card">
+  <div class="row"><div><span class="num">1</span></div><div style="flex:1">
+    <div class="body">备忘录 App → 新建 → 标题写 <code>支出流水</code>。<br>所有流水都会追加到这一篇里，不用管内容。</div>
+  </div></div>
+</div>
+
+<h2>第 2 步 · 建快捷指令（只建一次）</h2>
+<div class="card">
+  <div class="row"><div><span class="num">2</span></div><div style="flex:1">
+    <div class="body">快捷指令 App → 快捷指令页 → 右上角 ＋ → 搜索并添加两个动作：</div>
+    <div class="mono">动作 1：文本
+内容： [日期] | [App 名称] | [标题] | [正文]
+
+动作 2：追加到备忘录
+目标：支出流水
+文本：上一步的「文本」</div>
+    <div class="tip">四个方括号就是变量。在「文本」里长按空白处 → 选「选择变量」→ <b>快捷指令输入</b> → 分别挑「日期 / App 名称 / 标题 / 正文」，中间用 <code>|</code> 隔开。<br>
+    命名：右上角改名为 <b>记账·通知入库</b>。</div>
+  </div></div>
+</div>
+
+<h2>第 3 步 · 每个 App 建一条自动化</h2>
+<div class="card">
+  <div class="row"><div><span class="num">3</span></div><div style="flex:1">
+    <div class="body">快捷指令 → <b>自动化</b> → ＋ → 选 <b>通知</b>（或「收到通知时」）→ 点 App 选一个 → 下一步 → 添加操作 <b>运行快捷指令</b> → 选「记账·通知入库」→ 关闭 <b>运行前询问</b> → 完成。</div>
+    <div class="tip">一条触发器只能选一个 App，所以是 1 条指令 + N 条自动化。配 10 个大约 10 分钟。下面勾掉你已配好的：</div>
+    <div class="apps" id="apps"></div>
+  </div></div>
+</div>
+
+<h2>第 4 步 · 验证</h2>
+<div class="card ok">
+  <div class="body">随便付一笔（买瓶水），回备忘录看是否多了一行：</div>
+  <div class="mono">2026-11-26 12:31 | 支付宝 | 支付成功 | 已支付 ¥3.00 收款方：全家便利店</div>
+  <div class="body">有 → 成功。<b>没有 → 回第 0 步查那三个开关</b>，九成是通知位置没勾锁屏 / 通知中心，或者显示预览不是「始终」。</div>
+</div>
+
+<h2>第 5 步 · 月底出月报</h2>
+<div class="card">
+  <div class="body">备忘录「支出流水」→ 全选 → 复制 → 存成 <code>notes.txt</code>，在你自己的电脑上跑：</div>
+  <div class="mono">python3 from_notes.py notes.txt
+python3 pipeline.py notes_events.jsonl --no-bills
+open out/report.html</div>
+  <div class="tip">退款 / 转账 / 信用卡还款自动排除，不算支出；支付宝和银行同一笔会按「10 分钟内同金额」合并，银行记录优先。</div>
+</div>
+
+<h2>常见问题</h2>
+<details><summary>为什么必须勾「锁屏 / 通知中心」？</summary><p>通知自动化只在系统把通知投递到锁屏或通知中心时才触发，只显示横幅不触发。这是系统行为，绕不过。</p></details>
+<details><summary>微信的支付通知抓不到金额？</summary><p>微信正文受「显示预览」控制，锁屏只显示「微信」两字时拿不到金额。把微信通知预览设为「始终」，或者每月用微信账单兜底。</p></details>
+<details><summary>一笔钱会不会记两次？</summary><p>支付宝和银行可能各来一条，备忘录里会有两行。月报脚本会把「10 分钟内、同金额」合并成 1 笔，并优先采用银行那条。</p></details>
+<details><summary>数据会上传吗？有服务器吗？</summary><p>没有。通知只写进本机备忘录，导出成文本后在你自己的电脑上算。没有账号、没有后端、没有第三方。</p></details>
+<details><summary>安卓能用吗？</summary><p>不能。这套依赖 iOS 27 的通知自动化触发器。</p></details>
+<details><summary>自动化不运行 / 跑一半就停？</summary><p>检查自动化里「运行前询问」是否关掉；再看设置 → 快捷指令 → 是否允许了「运行快捷指令」相关权限。第一次运行可能会弹一次网络或文件权限。</p></details>
+
+<footer>
+  记账 · 通知入库 · v1 · 2026-11<br>
+  本地优先：数据不离开这台手机
+</footer>
+
+<script>
+  const APPS = ["支付宝","微信","云闪付","中国工商银行","中国建设银行","招商银行","中国银行","中国农业银行",
+    "交通银行","邮储银行","浦发银行","中信银行","民生银行","兴业银行","光大银行","平安银行",
+    "美团","大众点评","抖音","淘宝","京东","拼多多","饿了么","滴滴出行","铁路 12306","App Store"];
+  const KEY = "jz-apps-v2";
+  let saved = {};
+  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e) {}
+  const box = document.getElementById("apps");
+  APPS.forEach(name => {
+    const l = document.createElement("label");
+    l.className = "app";
+    const cb = document.createElement("input");
+    cb.type = "checkbox";
+    cb.checked = !!saved[name];
+    cb.onchange = () => { saved[name] = cb.checked; try { localStorage.setItem(KEY, JSON.stringify(saved)); } catch(e){} };
+    l.appendChild(cb);
+    l.appendChild(document.createTextNode(name));
+    box.appendChild(l);
+  });
+</script>
+</body>
+</html>
